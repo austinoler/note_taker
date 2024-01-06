@@ -41,3 +41,20 @@ app.get('/api/notes', (req, res) => {
     res.json(newNote);
   });
   
+  // Bonus: Delete Route
+app.delete('/api/notes/:id', (req, res) => {
+    const noteId = req.params.id;
+    let notes = JSON.parse(fs.readFileSync('db.json', 'utf8'));
+  
+    // Filter out the note with the given id
+    notes = notes.filter((note) => note.id !== noteId);
+  
+    fs.writeFileSync('db.json', JSON.stringify(notes));
+  
+    res.json({ message: 'Note deleted successfully' });
+  });
+  
+  // Start the server
+  app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
